@@ -1,0 +1,130 @@
+{
+  "ChangeSetMappingFile": null,
+  "Source": {
+    "$type": "TfsTeamProjectConfig",
+    "Collection": "https://dev.azure.com/source_org/",
+    "Project": "source_proj",
+    "ReflectedWorkItemIDFieldName": "Custom.ReflectedWorkItemId",
+    "AllowCrossProjectLinking": false,
+    "AuthenticationMode": "Prompt",
+    "PersonalAccessToken": "",
+    "PersonalAccessTokenVariableName": "",
+    "LanguageMaps": {
+      "AreaPath": "Area",
+      "IterationPath": "Iteration"
+    },
+    "CollectionName": "https://dev.azure.com/nkdagility-preview/"
+  },
+  "Target": {
+    "$type": "TfsTeamProjectConfig",
+    "Collection": "https://dev.azure.com/target_org/",
+    "Project": "target_proj",
+    "ReflectedWorkItemIDFieldName": "Custom.ReflectedWorkItemId",
+    "AllowCrossProjectLinking": false,
+    "AuthenticationMode": "AccessToken",
+    "PersonalAccessToken": "<PAT>",
+    "PersonalAccessTokenVariableName": "",
+    "LanguageMaps": {
+      "AreaPath": "Area",
+      "IterationPath": "Iteration"
+    },
+    "CollectionName": "https://dev.azure.com/nkdagility-preview/"
+  },
+  "FieldMaps": [],
+  "GitRepoMapping": null,
+  "LogLevel": "Information",
+  "CommonEnrichersConfig": null,
+  "Processors": [
+    {
+      "$type": "WorkItemMigrationConfig",
+      "Enabled": false,
+      "ReplayRevisions": true,
+      "PrefixProjectToNodes": false,
+      "UpdateCreatedDate": true,
+      "UpdateCreatedBy": true,
+      "WIQLQueryBit": "AND  [Microsoft.VSTS.Common.ClosedDate] = '' AND [System.WorkItemType] NOT IN ('Test Suite', 'Test Plan','Shared Steps','Shared Parameter','Feedback Request')",
+      "WIQLOrderBit": "[System.ChangedDate] desc",
+      "LinkMigration": true,
+      "AttachmentMigration": true,
+      "AttachmentWorkingPath": "c:\\temp\\WorkItemAttachmentWorkingFolder\\",
+      "FixHtmlAttachmentLinks": false,
+      "SkipToFinalRevisedWorkItemType": false,
+      "WorkItemCreateRetryLimit": 5,
+      "FilterWorkItemsThatAlreadyExistInTarget": false,
+      "PauseAfterEachWorkItem": false,
+      "AttachmentMaxSize": 480000000,
+      "AttachRevisionHistory": false,
+      "LinkMigrationSaveEachAsAdded": false,
+      "GenerateMigrationComment": true,
+      "WorkItemIDs": null,
+      "MaxRevisions": 0,
+      "UseCommonNodeStructureEnricherConfig": false,
+      "NodeBasePaths": null,
+      "AreaMaps": {
+		"source_proj": "target_proj\\source_proj"
+	  },
+      "IterationMaps": {
+		"source_proj":"target_proj\\source_proj"
+	  },
+      "MaxGracefulFailures": 0,
+      "SkipRevisionWithInvalidIterationPath": false,
+      "SkipRevisionWithInvalidAreaPath": false,
+      "ShouldCreateMissingRevisionPaths": true
+    },
+	{
+	  "$type": "AzureDevOpsPipelineProcessorOptions",
+	  "Enabled": true,
+	  "MigrateBuildPipelines": true,
+	  "MigrateReleasePipelines": true,
+	  "MigrateTaskGroups": true,
+	  "MigrateVariableGroups": true,
+	  "MigrateServiceConnections": true,
+	  "BuildPipelines": null,
+	  "ReleasePipelines": null,
+	  "RepositoryNameMaps": {},
+	  "ProcessorEnrichers": null,
+	  "SourceName": "Source",
+	  "TargetName": "Target"
+	}	
+  ],
+  "Version": "14.4",
+  "workaroundForQuerySOAPBugEnabled": false,
+  "WorkItemTypeDefinition": {
+    "Product Backlog Item": "User Story",
+	"Impediment": "Issue"
+  },
+  "Endpoints": {
+    "InMemoryWorkItemEndpoints": [
+      {
+        "Name": "Source",
+        "EndpointEnrichers": null
+      },
+      {
+        "Name": "Target",
+        "EndpointEnrichers": null
+      }
+    ], 
+	"AzureDevOpsEndpoints": [
+		{
+		  "name": "Source",
+		  "$type": "AzureDevOpsEndpointOptions",
+		  "Organisation": "https://dev.azure.com/source_org/",
+		  "Project": "source_proj",
+		  "AuthenticationMode": "AccessToken",
+		  "AccessToken": "<PAT>",
+		  "ReflectedWorkItemIdField": "Custom.ReflectedWorkItemId",
+		  "EndpointEnrichers": null          
+		},
+		{
+		  "Name": "Target",
+		  "$type": "AzureDevOpsEndpointOptions",
+		  "Organisation": "https://dev.azure.com/target_org/",
+		  "Project": "target_proj",
+		  "AuthenticationMode": "AccessToken",
+		  "AccessToken": "<PAT>",
+		  "ReflectedWorkItemIdField": "Custom.ReflectedWorkItemId",
+		  "EndpointEnrichers": null
+		}
+    ]	
+  }
+}
